@@ -24,6 +24,14 @@ jobs:
           git remote set-url origin https://${{ github.actor }}:${{ secrets.ACCESS_TOKEN }}@github.com/${{ github.repository }}
           # 循环Clone
           for i in ${pl[*]}; do
+            OLD_IFS="$IFS"
+            IFS="/" 
+            arr=($i)
+            IFS="$OLD_IFS"
+            key=`expr ${#arr[@]} - 1`
+            dir=${arr[$key]}
+            echo $dir
+            rm -rf $dir
             git clone $i
           done
           # 添加
